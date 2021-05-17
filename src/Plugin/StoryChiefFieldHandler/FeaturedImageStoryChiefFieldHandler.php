@@ -30,10 +30,11 @@ class FeaturedImageStoryChiefFieldHandler extends ImageFieldHandlerType {
   public function set() {
     parent::set();
 
-    $alt = $this->getPayload()['featured_image']['data']['alt'] ?? $this->getPayload()['title'];
-
     if($field_name = $this->getDrupalFieldName()) {
+      if($field_name && !$this->getEntity()->get($field_name)->isEmpty()) {
+        $alt = $this->getPayload()['featured_image']['data']['alt'] ?? $this->getPayload()['title'];
         $this->getEntity()->get($field_name)[0]->set('alt', $alt);
+      }
     }
   }
 
